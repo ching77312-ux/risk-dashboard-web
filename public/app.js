@@ -1,5 +1,7 @@
+// ---- 設定區:換成你自己 Supabase 專案的值 ----
 const SUPABASE_URL = "https://eoalgecdmfzfzikbqful.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVvYWxnZWNkbWZ6Znppa2JxZnVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAwMjc4MjIsImV4cCI6MjEwNTYwMzgyMn0.Vh1nxBNlTJ-8dbbEL7jRRfaBCxujI1O-W3enNpNu1OE";
+// ----------------------------------------------
 
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -147,14 +149,32 @@ function renderDetail() {
       <a href="${c.news_link || "#"}" target="_blank" rel="noopener">${escapeHtml(c.news_title || "無")}</a>
     </div>
     <div class="actions">
-      <button class="btn-primary" onclick="acknowledge('${c.id}')">標記已受理</button>
-      <button class="btn-secondary">轉知業務</button>
+      <a class="btn-primary" href="${buildMailtoLink(c)}">轉寄給他人</a>
     </div>
   `;
 }
 
-function acknowledge(id) {
-  alert(`(示範) 已受理案件:${id}\n實際上線時,這裡應呼叫一支有權限管控的後端 API 來寫回資料庫。`);
+// 產生 mailto 連結,點下去會用使用者電腦預設的信箱軟體(如 Outlook)
+// 開一封新信,主旨跟內容自動帶入這筆案件的重點資訊。
+function buildMailtoLink(c) {
+  const meta = RISK_META[c.risk_level] || RISK_META.low;
+  const subject = `【風控通報】${c.company_name}－${meta.label}`;
+  const bodyLines = [
+    `客戶名稱:${c.company_name}`,
+    `統一編號:${c.tax_id || ""}`,
+    `風險等級:${meta.label}`,
+    `額度分級:${c.tier || "—"}`,
+    "",
+    `風險摘要:`,
+    c.summary || "無",
+    "",
+    `重點新聞:${c.news_title || "無"}`,
+    c.news_link ? `新聞連結:${c.news_link}` : "",
+    "",
+    `更新時間:${new Date(c.updated_at).toLocaleString("zh-TW")}`,
+  ];
+  const body = bodyLines.join("\n");
+  return `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 }
 
 function escapeHtml(str) {
