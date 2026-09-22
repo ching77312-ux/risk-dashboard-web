@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>企業輿情風控儀表板</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <h1>企業輿情風控儀表板</h1>
+    <div class="sub">和潤企業 · 應收帳款客戶異常監控</div>
+  </div>
+  <div style="display:flex; align-items:center; gap:24px;">
+    <div class="meta">
+      <div class="meta-label">最後更新</div>
+      <div id="last-updated">—</div>
+    </div>
+  </div>
+</div>
+
+<div class="stats">
+  <div class="stat-card">
+    <div class="label">監控中客戶</div>
+    <div class="value" id="stat-total">—</div>
+  </div>
+  <div class="stat-card">
+    <div class="label"><span class="dot" style="background:#DC2626"></span>高風險</div>
+    <div class="value" style="color:#B91C1C" id="stat-high">—</div>
+  </div>
+  <div class="stat-card">
+    <div class="label"><span class="dot" style="background:#D97706"></span>中風險</div>
+    <div class="value" style="color:#92400E" id="stat-medium">—</div>
+  </div>
+  <div class="stat-card">
+    <div class="label"><span class="dot" style="background:#16A34A"></span>低風險</div>
+    <div class="value" style="color:#166534" id="stat-low">—</div>
+  </div>
+</div>
+
+<div class="tabs">
+  <div class="tabs-inner" id="tabs"></div>
+</div>
+
+<div class="content">
+  <div class="list" id="list"></div>
+  <div class="detail" id="detail"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
