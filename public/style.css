@@ -144,7 +144,19 @@ a:hover { text-decoration: underline; }
 .recommendation .label { font-size: 12px; font-weight: 700; color: #2451C9; }
 .recommendation .text { font-size: 13px; color: #1E3A8A; line-height: 1.6; }
 .actions { display: flex; gap: 8px; margin-top: 4px; }
-.actions button {
+.actions button,
+.actions a {
+  flex: 1;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 10px 0;
+  border-radius: 8px;
+  font-family: inherit;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}
   flex: 1;
   cursor: pointer;
   font-size: 13px;
